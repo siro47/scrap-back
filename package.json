@@ -8,9 +8,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "npm run build && npm run dev",
-    "dev": "node app.js",
-    "build": "./render-build.sh"
+    "start": "node app.js",
+    "build": "npm install && ./render-build.sh"
   },
   "dependencies": {
     "axios": "^1.10.0",

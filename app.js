@@ -52,6 +52,8 @@ app.get('/api/scrap', async (req, res) => {
 });
 
 async function scrapExpansion(gameId, expId, prevCard, filteredRarities) {
+  const start = process.hrtime();
+
   const expansions = await ctApi.getExpansions(gameId);
   const expansion = expansions.find(exp => exp.id.toString() === expId);
 
@@ -95,6 +97,10 @@ async function scrapExpansion(gameId, expId, prevCard, filteredRarities) {
     const ctResult = ctApi.getProdPrice(prods, LANGUAGES, PREFIX);
 
     const escapedCardName = _getParsedName(bp.name);
+    const ctDuration = process.hrtime(start);
+    console.log(`CT scrap duration: ${ctDuration}`);
+    const step2Start = process.hrtime();
+
     const mkmResult = await mkmApi.checkMkmPrizes({
       game: PREFIX,
       expansion: escapedExpansionName,
@@ -104,6 +110,9 @@ async function scrapExpansion(gameId, expId, prevCard, filteredRarities) {
           ? 2
           : 1,
     });
+    const mkmDuration = process.hrtime(step2Start);
+    console.log(`Mkm scrap duration: ${mkmDuration}`);
+
     return {
       info: {
         name: prods[0].name_en,
