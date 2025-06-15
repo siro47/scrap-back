@@ -57,11 +57,11 @@ class CardMarketAPI {
       params.version === 2
         ? this._getCardUrl({ ...params, useVersion: true, version: 2 })
         : this._getCardUrl(params);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     let articleRows = await page.$$('.article-row');
     if (!articleRows.length) {
       const url = this._getCardUrl({ ...params, useVersion: true });
-      await page.goto(url, { waitUntil: 'load' });
+      await page.goto(url, { waitUntil: 'domcontentloaded' });
       articleRows = await page.$$('.article-row');
     }
     if (!articleRows.length) {
