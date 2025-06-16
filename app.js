@@ -88,7 +88,9 @@ async function scrapExpansion(gameId, expId, prevCard, filteredRarities) {
   for (const bp of blueprints) {
     let prods = await ctApi.getProducts(bp.id);
     prods = prods[bp.id];
-    const simonv = prods.find(p => p.user.username === 'SimonVtcg');
+    const simonv = prods
+      .filter(p => p.properties_hash.lorcana_foil === false)
+      .find(p => p.user.username === 'SimonVtcg');
     const stock = simonv?.quantity ?? 0;
     let sellPrize = null;
     if (simonv) {
